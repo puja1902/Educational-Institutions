@@ -32,10 +32,21 @@ This project is defined as an application based on the Internet that aims to all
 ![Screenshot(99)](https://user-images.githubusercontent.com/53162198/93625481-aa751d00-f9ff-11ea-8a4b-4e0927a5c959.png)
 
 
+
 # TEACHER DASHBOARD
 
 
 ![Screenshot (103)](https://user-images.githubusercontent.com/53162198/93628047-84ea1280-fa03-11ea-89d7-5da33214a3f1.png)
+
+
+# ADMIN PAGE
+
+
+![Screenshot (104)](https://user-images.githubusercontent.com/53162198/93628265-e4e0b900-fa03-11ea-8fda-06d6f6f082f7.png)
+
+
+
+
 
 
 
