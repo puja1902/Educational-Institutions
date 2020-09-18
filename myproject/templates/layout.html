@@ -14,11 +14,16 @@
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../static/css/jquery.datetimepicker.css" />
     <!-- CSS Files -->
+    <link href="../../static/css/md-style.css" rel="stylesheet" />
     <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../static/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../static/demo/demo.css" rel="stylesheet" />
+    
 </head>
 
 <body class="">
@@ -33,7 +38,7 @@
                         <img src="../../static/img/logo-small.png">
                       </div>-->
                 </a>
-                <a href="#" class="simple-text logo-mini">
+                <a href="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}" class="simple-text logo-mini">
                     <div class="logo-image-big">
                         <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}">
                     </div>{{current_user.username}}
@@ -90,7 +95,7 @@
                     <li>
                         <a href="./tables.html">
                             <i class="nc-icon nc-tile-56"></i>
-                            <p>Table List</p>
+                            <p>Timetable</p>
                         </a>
                     </li>
                     <li>
@@ -99,12 +104,7 @@
                             <p>Typography</p>
                         </a>
                     </li>
-                    <li class="active-pro">
-                        <a href="./upgrade.html">
-                            <i class="nc-icon nc-spaceship"></i>
-                            <p>Upgrade to PRO</p>
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
         </div>
@@ -176,8 +176,8 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn-rotate" href="#pablo">
-                                    <i class="nc-icon nc-settings-gear-65"></i>
+                                <a class="nav-link btn-rotate" href="{{ url_for('logout') }} ">
+                                    <i class="fas fa-sign-out-alt"></i>
                                     <p>
                                         <span class="d-lg-none d-md-block">Account</span>
                                     </p>
@@ -188,55 +188,8 @@
                 </div>
             </nav>
 
-        <div class="content">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card card-user">
-                        <div class="image">
-                            <img src="../static/img/damir-bosnjak.jpg" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <div class="author">
-                                <a href="#">
-                                    <img class="avatar border-gray" src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}" alt="...">
-                                    <h5 class="title">{{current_user.s_user.first_name}} {{current_user.s_user.last_name}}</h5>
-                                </a>
-                                <p class="description">
-                                   @ {{current_user.username}}
-                                </p>
-                            </div>
-                            <p class="description text-center">
-                                "I like the way you work it
-                                <br> No diggity
-                                <br> I wanna bag it up"
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <hr>
-                            <div class="button-container">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-6 col-6 ml-auto">
-                                        <h5>12
-                                            <br>
-                                            <small>Post</small>
-                                        </h5>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">
-                                        <h5>1k
-                                            <br>
-                                            <small>liked</small>
-                                        </h5>
-                                    </div>
-                                    <div class="col-lg-3 mr-auto">
-                                        <h5>{{current_user.s_user.branch}}
-                                            <br>
-                                            <small>Class</small>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+       
+                
             {% block content %}
 
 
@@ -271,6 +224,47 @@
             </footer>
             </div>
             </div>
+
+
+
+            <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker();
+                });
+            </script>
+            
+            
+            <script>
+                let branch_select = document.getElementById('branch');
+                let sem_select = document.getElementById('sem');
+                let sub_select = document.getElementById('subs');
+
+                sem_select.onchange = function () {
+                    branch = branch_select.value;
+                    sem = sem_select.value;
+
+
+                    fetch('/attendance/' + branch + ',' + sem).then(function (response) {
+                        response.json().then(function (data) {
+                            console.table(data);
+                            let optionHTML = '';
+
+                            for (let sub of data.sems) {
+                                optionHTML += '<option value="' + sub.sub_id + '">' + sub.sub_name + '</option>';
+                            }
+                            sub_select.innerHTML = optionHTML;
+
+                        });
+                    });
+
+
+                }
+
+
+            </script>
+
+          
+
             <!--   Core JS Files   -->
             <script src="../static/js/core/jquery.min.js"></script>
             <script src="../static/js/core/popper.min.js"></script>
@@ -285,7 +279,93 @@
             <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
             <script src="../static/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
             <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-            <script src="../static/demo/demo.js"></script>
+          
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+        <script src="../../static/js/jquery.datetimepicker.full.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
+        <script>
+            /*jslint browser:true*/
+            /*global jQuery, document*/
+
+            jQuery(document).ready(function () {
+                'use strict';
+
+                jQuery('#filter-date, #search-from-date, #search-to-date').datetimepicker();
+
+            });
+        </script>
+        <script>
+            let dataSet = [
+                    ["Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011-04-25", "$320,800"],
+                    ["Garrett Winters", "Accountant", "Tokyo", "8422", "2011-07-25", "$170,750"],
+                    ["Ashton Third Cox", "Junior Technical Author", "San Francisco", "1562", "2009-01-12", "$86,000"],
+                    ["Cedric Kelly", "Senior Javascript Developer", "Edinburgh", "6224", "2012-03-29", "$433,060"],
+                    ["Airi", "Accountant", "Tokyo", "5407", "2008-11-28", "$162,700"],
+                    ["Brielle Williamson Need More Space To Check It", "Integration Specialist", "New York", "4804", "2012-12-02",
+                        "$372,000"
+                    ],
+                    ["Herrod Chandler", "Sales Assistant", "San Francisco", "9608", "2012-08-06", "$137,500"],
+                    ["Rhona Davidson", "Integration Specialist", "Tokyo", "6200", "2010-10-14", "$327,900"],
+                    ["Colleen Hurst", "Javascript Developer", "San Francisco", "2360", "2009-09-15", "$205,500"],
+                    ["Sonya Frost", "Software Engineer", "Edinburgh", "1667", "2008-12-13", "$103,600"],
+                    ["Jena Gaines", "Office Manager", "London", "3814", "2008-12-19", "$90,560"],
+                    ["Quinn Flynn", "Support Lead", "Edinburgh", "9497", "2013-03-03", "$342,000"],
+                    ["Charde Marshall", "Regional Director", "San Francisco", "6741", "2008-10-16", "$470,600"],
+                    ["Haley Kennedy", "Senior Marketing Designer", "London", "3597", "2012-12-18", "$313,500"],
+                    ["Tatyana Fitzpatrick", "Regional Director", "London", "1965", "2010-03-17", "$385,750"],
+                    ["Michael Silva", "Marketing Designer", "London", "1581", "2012-11-27", "$198,500"],
+                    ["Paul Byrd", "Chief Financial Officer (CFO)", "New York", "3059", "2010-06-09", "$725,000"],
+                    ["Gloria Little", "Systems Administrator", "New York", "1721", "2009-04-10", "$237,500"],
+                    ["Bradley Fourth Fourth Greer", "Software Engineer", "London", "2558", "2012-10-13", "$132,000"],
+                    ["Dai Rios", "Personnel Lead", "Edinburgh", "2290", "2012-09-26", "$217,500"],
+                    ["Jenette Caldwell", "Development Lead", "New York", "1937", "2011-09-03", "$345,000"],
+                    ["Yuri Berry", "Chief Marketing Officer (CMO)", "New York", "6154", "2009-06-25", "$675,000"],
+                    ["Caesar Vance", "Pre-Sales Support", "New York", "8330", "2011-12-12", "$106,450"],
+                    ["Doris Wilder", "Sales Assistant", "Sidney", "3023", "2010-09-20", "$85,600"],
+                    ["Angelica Ramos", "Chief Executive Officer (CEO)", "London", "5797", "2009-10-09", "$1,200,000"],
+                    ["Gavin Joyce", "Developer", "Edinburgh", "8822", "2010-12-22", "$92,575"],
+                    ["Jennifer Chang", "Regional Director", "Singapore", "9239", "2010-11-14", "$357,650"],
+                    ["Brenden Fifth Example Some Wagner", "Software Engineer", "San Francisco", "1314", "2011-06-07", "$206,850"],
+                    ["Fiona Green", "Chief Operating Officer (COO)", "San Francisco", "2947", "2010-03-11", "$850,000"],
+                    ["Shou Itou", "Regional Marketing", "Tokyo", "8899", "2011-08-14", "$163,000"],
+                    ["Michelle House", "Integration Specialist", "Sidney", "2769", "2011-06-02", "$95,400"],
+                    ["Suki Burks", "Developer", "London", "6832", "2009-10-22", "$114,500"],
+                    ["Prescott Bartlett", "Technical Author", "London", "3606", "2011-05-07", "$145,000"],
+                    ["Gavin Cortez", "Team Leader", "San Francisco", "2860", "2008-10-26", "$235,500"],
+                    ["Martena Mccray", "Post-Sales support", "Edinburgh", "8240", "2011-03-09", "$324,050"],
+                    ["Unity Butler", "Marketing Designer", "San Francisco", "5384", "2009-12-09", "$85,675"]
+                ];
+
+                $(document).ready(function () {
+                    $('#contentEx').DataTable({
+                        data: dataSet,
+                        columns: [{
+                            title: "Name"
+                        },
+                        {
+                            title: "Position"
+                        },
+                        {
+                            title: "Office"
+                        },
+                        {
+                            title: "Extn."
+                        },
+                        {
+                            title: "Start date"
+                        },
+                        {
+                            title: "Salary"
+                        }
+                        ]
+                    });
+
+                    $('#contentEx').mdbEditor({
+                        contentEditor: true
+                    });
+
+                    $('.dataTables_length').addClass('bs-select');
+        </script>
             </body>
             
             </html>

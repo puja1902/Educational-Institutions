@@ -1,18 +1,3 @@
-<!--
-=========================================================
- Paper Dashboard 2 - v2.0.0
-=========================================================
-
- Product Page: https://www.creative-tim.com/product/paper-dashboard-2
- Copyright 2019 Creative Tim (https://www.creative-tim.com)
- Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard/blob/master/LICENSE)
-
- Coded by Creative Tim
-
-=========================================================
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
-
 
 
 <!DOCTYPE html>
@@ -24,19 +9,30 @@ The above copyright notice and this permission notice shall be included in all c
   <link rel="icon" type="image/png" href="../../static/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Paper Dashboard 2 by Creative Tim
+   Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <!-- CSS Files -->
   <link href="../../static/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../../static/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="../../static/demo/demo.css" rel="stylesheet" />
+  <!-- CSS by md bootstrap-->
+  
 <style>
 input[type=text] {
+  width: 100%;
+  background: linear-gradient(to right, #ffffcc 0%, #ccffff 93%);
+  color: rgb(0, 0, 0);
+}
+input[type=email] {
+  width: 100%;
+  background: linear-gradient(to right, #ffffcc 0%, #ccffff 93%);
+  color: rgb(0, 0, 0);
+}
+input[type=password] {
   width: 100%;
   background: linear-gradient(to right, #ffffcc 0%, #ccffff 93%);
   color: rgb(0, 0, 0);
@@ -58,54 +54,49 @@ input[type=text] {
             <img src="../../static/img/logo-small.png">
           </div>-->
         </a>
-        <a href="#" class="simple-text logo-mini">
+        <a href="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}" class="simple-text logo-mini">
          <div class="logo-image-big">
-            <img src="../../static/img/logo-small.png">
+            <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}">
           </div>{{current_user.username}}
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="active ">
-            <a href="./dashboard.html">
+            <a  href="{{ url_for(current_user.user_type+'_dashboard') }}">
               <i class="nc-icon nc-bank"></i>
               <p>Dashboard</p>
             </a>
           </li>
+          <hr>
           <li>
-            <a href="./icons.html">
+            <a href="{{ url_for('admin_branch') }}">
               <i class="nc-icon nc-diamond"></i>
-              <p>Icons</p>
+              <p>Branch</p>
             </a>
           </li>
           <li>
-            <a href="{{ url_for('index') }}">
+            <a href="{{ url_for('admin_subject') }}">
               <i class="nc-icon nc-pin-3"></i>
-              <p>Home</p>
+              <p>Subject</p>
             </a>
           </li>
           <li>
-            <a href="./notifications.html">
+            <a href="{{ url_for('admin_attendance') }}">
               <i class="nc-icon nc-bell-55"></i>
-              <p>Notifications</p>
+              <p>Attendance</p>
             </a>
           </li>
           <li>
-            <a  href="{{ url_for('teacher_account') }}">
+            <a  href="{{ url_for(current_user.user_type+'_account') }}">
               <i class="nc-icon nc-single-02"></i>
-              <p>User Profile</p>
+              <p>Profile</p>
             </a>
           </li>
           <li>
-            <a href="./tables.html">
+            <a href="{{ url_for('timetable') }}">
               <i class="nc-icon nc-tile-56"></i>
               <p>Table List</p>
-            </a>
-          </li>
-          <li>
-            <a href="./typography.html">
-              <i class="nc-icon nc-caps-small"></i>
-              <p>Typography</p>
             </a>
           </li>
         </ul>
@@ -164,8 +155,8 @@ input[type=text] {
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn-rotate" href="#pablo">
-                  <i class="nc-icon nc-settings-gear-65"></i>
+                <a class="nav-link btn-rotate" href=" {{ url_for('logout') }}">
+                  <i class="fas fa-sign-out-alt"></i>
                   <p>
                     <span class="d-lg-none d-md-block">Account</span>
                   </p>
@@ -196,9 +187,9 @@ input[type=text] {
                   <div class="col-7 col-md-8">
                     <a href="#">
                     <div class="numbers">
-                      <p class="card-category">Classroom</p>
-                      <p class="card-title">{{current_user.s_user.branch}}-{{current_user.s_user.sem}}-{{current_user.s_user.sec}}
-                        <p>
+                      <p class="card-category">Branch Modification</p>
+                      
+                      
                     </div>
                   </div>
                 </div>
@@ -223,9 +214,8 @@ input[type=text] {
                   <div class="col-7 col-md-8">
                     <a href="#">
                     <div class="numbers">
-                      <p class="card-category">Exam Portal</p>
-                      <p class="card-title">{{current_user.s_user.branch}}
-                        <p>
+                      <p class="card-category">Subject Modification</p>
+                      
                     </div>
                   </div>
                 </div>
@@ -249,9 +239,8 @@ input[type=text] {
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Attendance</p>
-                      <p class="card-title">{{current_user.s_user.branch}}
-                        <p>
+                      <p class="card-category">Teacher Desk</p>
+                      
                     </div>
                   </div>
                 </div>
@@ -276,8 +265,7 @@ input[type=text] {
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">e-Learning</p>
-                      <p class="card-title">+45K
-                        <p>
+                      
                     </div>
                   </div>
                 </div>
@@ -291,25 +279,7 @@ input[type=text] {
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card ">
-              <div class="card-header ">
-                <h5 class="card-title">Users Behavior</h5>
-                <p class="card-category">24 Hours performance</p>
-              </div>
-              <div class="card-body ">
-                <canvas id=chartHours width="400" height="100"></canvas>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-history"></i> Updated 3 minutes ago
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
         <div class="row">
           <div class="col-md-4">
@@ -317,7 +287,8 @@ input[type=text] {
 
               <div class="card-header">
                 <h5 class="class-title"> Teacher info</h5>
-                <form action="/admin_dashboard" method="POST">
+              
+                <form action="{{ url_for('admin_dashboard') }}" name="teach_search" method="POST">
                 <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
                   <thead>
                     <tr>
@@ -339,7 +310,7 @@ input[type=text] {
                       </div>
 
                       </th>
-                      <th class="th-sm"><button type="submit" class="btn btn-default">Submit</button>
+                      <th class="th-sm"><button type="submit" name="teach_search" value="teach_search" class="btn btn-default">Submit</button>
                       </th>
                     </tr>
                   </thead>
@@ -352,7 +323,7 @@ input[type=text] {
                 <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th class="th-sm">Teacher ID
+                      <th class="th-sm"> ID
                       </th>
                       <th class="th-sm">Name
                       </th>
@@ -393,27 +364,31 @@ input[type=text] {
            <div class="card">
              <div class="card-header">
                <h5 class="class-title"> ADD TEACHER INFO</h5>
-          
+          <div class="text-center">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class=flashes>
+              {% for message in messages %}
+              <p style="margin-right: 20%; margin-left: 20%;"><strong style="color: slateblue;">{{ message }}</strong></p>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+          </div>
               </div>
                 <div class="card-body">
-                  <form action="/account" method="POST">
+                  <form action="{{ url_for('admin_dashboard') }}" name="teach_submit" method="POST">
                     <div class="row">
-                      <div class="col-md-5 pr-1">
-                        <div class="form-group">
-                          <label>Teacher Id</label>
-                          <input type="text" class="form-control"  placeholder="Company" name="tid" >
-                        </div>
-                      </div>
-                      <div class="col-md-3 px-1">
+                      <div class="col-md-6 pr-1">
                           <div class="form-group">
                             <label>Username</label>
                             <input type="text" class="form-control" placeholder="Username" name="username" >
                           </div>
                       </div>
-                      <div class="col-md-4 pl-1">
+                      <div class="col-md-6 pl-1">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Email address</label>
-                          <input type="email" class="form-control" placeholder="Email" name="email" >
+                        <input type="email" class="form-control" placeholder="Email" name="email">
                         </div>
                       </div>
                     </div>
@@ -421,64 +396,35 @@ input[type=text] {
                       <div class="col-md-5 pr-1">
                         <div class="form-group">
                           <label>Password</label>
-                          <input type="text" class="form-control"  placeholder="*********" name="psw" >
+                          <input type="password" class="form-control"  placeholder="*********" name="psw" >
                         </div>
                       </div>
                       <div class="col-md-3 px-1">
                         <div class="form-group">
                           <label>Confirm Password</label>
-                          <input type="text" class="form-control" placeholder="********" name="rpsw" >
+                          <input type="password" class="form-control" placeholder="********" name="rpsw" >
                         </div>
                       </div>
                       <div class="col-md-4 pl-1">
                         <div class="form-group">
-                          <label for="exampleInputEmail1">User type</label>
-                          <input type="email" class="form-control" placeholder="User type" name="usertype" >
+                          <input type="hidden" class="form-control"  name="usertype" value="teacher" >
                         </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                          <label>First Name</label>
-                          <input type="text" class="form-control" placeholder="First Name" name="firstname" >
-                        </div>
-                      </div>
-                      <div class="col-md-6 pl-1">
-                        <div class="form-group">
-                          <label>Last Name</label>
-                          <input type="text" class="form-control" placeholder="Last Name" name="lastname" >
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label>Address</label>
-                          <input type="text" class="form-control" placeholder="Home Address" name="address" >
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4 pr-1">
-                        <div class="form-group">
-                          <label>Branch</label>
-                          <input type="text" class="form-control" placeholder="branch" name="branch" >
-                        </div>
-                      </div>
-                    </div>
+              
+                  
                     <div class="row">
                       <div class="update ml-auto mr-auto">
-                        <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
+                        <input type="submit" name="teach_submit" value="teach_submit" class="btn btn-primary btn-round"></input>
                       </div>
                     </div>
                   </form>
-          
+                 
                 </div>
              </div>
             </div>
           </div>
-    
+  <!---------------------------------student info------------------------------->  
 
         <div class="row">
           <div class="col-md-4">
@@ -486,195 +432,175 @@ input[type=text] {
         
               <div class="card-header">
                 <h5 class="class-title"> Student Info</h5>
-        
-              </div>
-        
-              <div class="card-body">
-        
-              </div>
-        
-            </div>
-          </div>
-        
-        
-        
-          <div class="col-md-8">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="class-title"> Student Info</h5>
-        
-              </div>
-              <div class="card-body">
-        
-        
-        
-              </div>
-            </div>
-          </div>
-        </div>
-        
 
-        
 
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card ">
-              <div class="card-header ">
-                <h5 class="card-title">Attendance Statistics</h5>
-                <p class="card-category"> Performance</p>
-              </div>
-              <div class="card-body ">
-                <canvas id="chartEmail"></canvas>
-              </div>
-              <div class="card-footer ">
-                <div class="legend">
-                  <i class="fa fa-circle text-primary"></i> attend
-                  <i class="fa fa-circle text-warning"></i> absent
-                  <i class="fa fa-circle text-danger"></i> total class
+                <form action="{{ url_for('admin_dashboard') }}" name="studentsearch" method="POST">
+                  <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th class="th-sm">
+                          <div class="form-group ">
+                            <select id="Attendance" class="form-control" name="branch">
+                              <option value="">select</option>
+                              <option value="CSE">CSE</option>
+                              <option value="ISE">ISE</option>
+                              <option value="ME">ME</option>
+                              <option value="EE">EE</option>
+                            </select>
+                          </div>
+                        </th>
+                        <th class="th-sm">OR
+                
+                        </th>
+                        <th class="th-sm">
+                          <div class="form-group">
+                            <input type="text" class="form-control" placeholder="usn" name="usn">
+                          </div>
+                
+                        </th>
+                        <th class="th-sm"><button name="studentsearch" value="studentsearch" type="submit" class="btn btn-default">Submit</button>
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+                </form>
         
-                </div>
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-calendar"></i> Attendance
-                </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-8">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">Time Table</h5>
-                <p class="card-category">Follow your time table</p>
-              </div>
-              <form action="/">
-                <fieldset>
+        
               <div class="card-body">
-                
-                <table class="table table-striped table-responsive-md btn-table">
-                
-                  <thead class=" text-primary">
+
+                <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                  <thead>
                     <tr>
-                      <th>DAY/TIME</th>
-                      <th>9.00-9.50</th>
-                      <th>9.50-10-40</th>
-                      <th>tea break</th>
-                      <th>11.00-11.50</th>
-                      <th>11.50-12-40</th>
-                      <th>lunch break</th>
-                      <th>1.30-2.25</th>
-                      <th>2.25-3.20</th>
-                      <th>3.20-4.15</th>
-                
+                      <th class="th-sm">USN
+                      </th>
+                      <th class="th-sm">Name
+                      </th>
+                      <th class="th-sm">Address
+                      </th>
+                      <th class="th-sm">Attendance
+                      </th>
                     </tr>
                   </thead>
-                
                   <tbody>
-                    <tr>
-                      <th scope="row">monday</th>
-                      <td> <input type="text" name="value1" value=""> </td>
-                      <td><input type="text" name="value2" value=""></td>
-                      <td rowspan="6">tea break</td>
-                      <td><input type="text" name="value3" value=""></td>
-                      <td><input type="text" name="value4" value=""></td>
-                      <td rowspan="6">lunch break</td>
-                      <td><input type="text" name="value5" value=""></td>
-                      <td><input type="text" name="value6" value=""></td>
-                      <td><input type="text" name="value7" value=""></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Tuesday</th>
-                      <td><input type="text" name="value7" value=""></td>
-                      <td><input type="text" name="value8" value=""></td>
-                      <td><input type="text" name="value9" value=""></td>
-                      <td><input type="text" name="value10" value=""></td>
-                      <td><input type="text" name="value11" value=""></td>
-                      <td><input type="text" name="value12" value=""></td>
-                      <td><input type="text" name="value13" value=""></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Wednesday</th>
-                      <td><input type="text" name="value14" value=""></td>
-                      <td><input type="text" name="value15" value=""></td>
-                      <td><input type="text" name="value16" value=""></td>
-                      <td><input type="text" name="value17" value=""></td>
-                      <td><input type="text" name="value18" value=""></td>
-                      <td><input type="text" name="value19" value=""></td>
-                      <td><input type="text" name="value20" value=""></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Thusday</th>
-                      <td><input type="text" name="value21" value=""></td>
-                      <td><input type="text" name="value22" value=""></td>
-                      <td><input type="text" name="value23" value=""></td>
-                      <td><input type="text" name="value24" value=""></td>
-                      <td><input type="text" name="value25" value=""></td>
-                      <td><input type="text" name="value26" value=""></td>
-                      <td><input type="text" name="value27" value=""></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Firday</th>
-                      <td><input type="text" name="value28" value=""></td>
-                      <td><input type="text" name="value29" value=""></td>
-                      <td><input type="text" name="value30" value=""></td>
-                      <td><input type="text" name="value31" value=""></td>
-                      <td><input type="text" name="value32" value=""></td>
-                      <td><input type="text" name="value33" value=""></td>
-                      <td><input type="text" name="value34" value=""></td>
-                    </tr>
                   </tbody>
+                <tr>
+                  <td>221233</td>
+                  <td>vikash</td>
+                  <td>patna</td>
+                  <td>12</td>
+                </tr>
                 
-                </table>
-
-                
-             </div>
-                <div class="card-footer ">
-                    <div class="col-md-8">
-                      <div class="form-group ">
-                        <label  for="Attendance">Select class</label>
-                        <select id="Attendance" class="form-control" name="branch">
-                          <option value="CSE">CSE</option>
-                          <option value="ISE">ISE</option>
-                          <option value="ME">ME</option>
-                          <option value="EE">EE</option>
-                        </select>
-                      </div>
-                      <div class="form-group " >
-                        <label for="Attendance">Select SEM</label>
-                        <select id="Attendance" class="form-control" name="sem">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                        </select>
-                      </div>
-                      <div class="form-group ">
-                        <label for="Attendance">Select SEM</label><span class="inline">
-                        <select id="Attendance" class="form-control" name="sec">
-                          <option value="A">A</option>
-                          <option value="B">B</option>
-                          <option value="C">C</option>
-                          <option value="D">D</option>
-
-                        </select>
-                        </span>
-                      </div>
-                      <button type="submit" class="btn btn-default">Submit</button>
-                    </div>
-                  
                  
-                    
-              
-                </div>
-                </fieldset>
-              </form>
+                
+                  </tbody>
+                </table>
+        
+              </div>
+        
+            </div>
+          </div>
+        
+        
+        
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="class-title">Add Student</h5>
+        
+              </div>
+              <div class="card-body">
+
+
+                <form action="{{ url_for('admin_dashboard') }}" name="student" method="POST">
+                  <div class="row">
+                    <div class="col-md-5 pr-1">
+                      <div class="form-group">
+                        <label>Teacher Id</label>
+                        <input type="text" class="form-control" placeholder="Teacher Id" name="tid">
+                      </div>
+                    </div>
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="Username" name="username">
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" placeholder="Email" name="email">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5 pr-1">
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" class="form-control" placeholder="*********" name="psw">
+                      </div>
+                    </div>
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="text" class="form-control" placeholder="********" name="rpsw">
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">User type</label>
+                        <input type="email" class="form-control" placeholder="User type" name="usertype">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" placeholder="First Name" name="firstname">
+                      </div>
+                    </div>
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" placeholder="Last Name" name="lastname">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" class="form-control" placeholder="Home Address" name="address">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 pr-1">
+                      <div class="form-group">
+                        <label>Branch</label>
+                        <input type="text" class="form-control" placeholder="branch" name="branch">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button type="submit" name="student" value="student" class="btn btn-primary btn-round">Submit</button>
+                    </div>
+                  </div>
+                </form>
+        
+        
+        
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        
+
+        
+
+      
       <footer class="footer footer-black  footer-white ">
         <div class="container-fluid">
           <div class="row">

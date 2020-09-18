@@ -1,20 +1,3 @@
-<!--
-=========================================================
- Paper Dashboard 2 - v2.0.0
-=========================================================
-
- Product Page: https://www.creative-tim.com/product/paper-dashboard-2
- Copyright 2019 Creative Tim (https://www.creative-tim.com)
- Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard/blob/master/LICENSE)
-
- Coded by Creative Tim
-
-=========================================================
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,22 +7,33 @@ The above copyright notice and this permission notice shall be included in all c
   <link rel="icon" type="image/png" href="../../static/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Paper Dashboard 2 by Creative Tim
+    Teacher Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!---------------------------summernote----------------------------------------------------->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
   <!-- CSS Files -->
   <link href="../../static/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../../static/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="../../static/demo/demo.css" rel="stylesheet" />
+  
 <style>
 input[type=text] {
   width: 100%;
   background: linear-gradient(to right, #ffffcc 0%, #ccffff 93%);
   color: rgb(0, 0, 0);
+}
+
+@media only screen and (max-width: 768px){
+  .wrapper-dropdown{
+           width:auto;
+           position: sticky;
+           align-items: stretch;
+           margin-top: 10px;
+  }
 }
 
 </style>
@@ -49,9 +43,7 @@ input[type=text] {
 <body >
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
+  
       <div class="logo">
         <!--<a href="#" class="simple-text logo-mini">
          <div class="logo-image-big">
@@ -60,22 +52,22 @@ input[type=text] {
         </a>
         <a href="#" class="simple-text logo-mini">
          <div class="logo-image-big">
-            <img src="../../static/img/logo-small.png">
+            <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}">
           </div>{{current_user.username}}
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="active ">
-            <a href="./dashboard.html">
+            <a href="{{ url_for(current_user.user_type+'_dashboard') }}">
               <i class="nc-icon nc-bank"></i>
               <p>Dashboard</p>
             </a>
           </li>
           <li>
-            <a href="./icons.html">
+            <a href="{{ url_for('admin_dashboard') }}">
               <i class="nc-icon nc-diamond"></i>
-              <p>Icons</p>
+              <p>Admin panel</p>
             </a>
           </li>
           <li>
@@ -133,7 +125,7 @@ input[type=text] {
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form>
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
+                <input type="text" value="" class="form-control" placeholder="Search..." >
                 <div class="input-group-append">
                   <div class="input-group-text">
                     <i class="nc-icon nc-zoom-split"></i>
@@ -164,10 +156,10 @@ input[type=text] {
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn-rotate" href="#pablo">
-                  <i class="nc-icon nc-settings-gear-65"></i>
+                <a class="nav-link btn-rotate"  href="{{ url_for('logout') }}">
+                <i class="fas fa-sign-out-alt"></i>
                   <p>
-                    <span class="d-lg-none d-md-block">Account</span>
+                    <span class="d-lg-none d-md-block">Logout</span>
                   </p>
                 </a>
               </li>
@@ -186,6 +178,7 @@ input[type=text] {
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">
+              
               <div class="card-body ">
                 <div class="row">
                   <div class="col-5 col-md-4">
@@ -194,10 +187,10 @@ input[type=text] {
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
-                    <a href="#">
+                  
                     <div class="numbers">
                       <p class="card-category">Classroom</p>
-                      <p class="card-title">{{current_user.s_user.branch}}-{{current_user.s_user.sem}}-{{current_user.s_user.sec}}
+                      <p class="card-title" style="font-size: 13px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Student waiting for you
                         <p>
                     </div>
                   </div>
@@ -206,10 +199,48 @@ input[type=text] {
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-folder-open"></i> Open
+                 <form method="POST" name="classroom">
+                   <div class="row">
+                     <div class="col pad">
+                        <div class="form-group">
+                        <select class=" select-css" name="branch">
+                          {% for item in branches %}
+                          <option value="{{item.branch_id}}">{{item.branch_id}}</option>
+                          {% endfor %}
+                        </select>
+                        </div>
+                     </div>
+                      <div class="col pad">
+                        <div class="form-group">
+                          <select class=" select-css" name="sem">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="8">9</option>
+                          <option value="8">10</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col pad">
+                        <div class="form-group">
+                        <select class=" select-css" name="sec" onchange="this.form.submit()">
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                          <option value="C">C</option>
+                          <option value="D">D</option>
+                        </select>
+                        </div>
+                      </div>
+                   </div>
+                 </form>
                 </div>
               </div>
-            </div></a>
+            </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">
@@ -291,187 +322,99 @@ input[type=text] {
             </div>
           </div>
         </div>
+
+        <!----------------Blog Post-------------------->
         <div class="row">
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">Users Behavior</h5>
-                <p class="card-category">24 Hours performance</p>
-              </div>
+                <form method="POST" action="{{ url_for('teacher_dashboard') }}" name="blog_submit" enctype="multipart/form-data">
+                <h5 class="card-title">Blog</h5>
+                <input type="text" placeholder="Your Post Title" name="title" class="card-category form-control">
+                </div>
               <div class="card-body ">
-                <canvas id=chartHours width="400" height="100"></canvas>
+                
+                <textarea id="summernote" name="bolgdata"></textarea>
+
               </div>
               <div class="card-footer ">
+                <input class="form-control" id="picture" name="picture" type="file">
                 <hr>
-                <div class="stats">
-                  <i class="fa fa-history"></i> Updated 3 minutes ago
+                <div class="text-center stats" >
+                  <select class="form-control" name="category">
+                   <option value="Technology">Technology</option>
+                  <option value="Technology">Event</option>
+                  <option value="Technology">A I</option>
+                  <option value="Technology">Data Science</option>
+                  <option value="Technology">Career</option>
+                  </select>
+                  <input type="submit" id="blog_buttom" class="btn btn-primary btn-sm" onclick="" name="blog_submit" value="blog submit">
                 </div>
+                </form>
+          
               </div>
             </div>
           </div>
         </div>
+      
+          <!-------------------Blog Post End------------------------------>
         <div class="row">
           <div class="col-md-4">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">Email Statistics</h5>
-                <p class="card-category">Last Campaign Performance</p>
+                <h5 class="card-title">Notice Board</h5>
+                <p class="card-category">Please Enter your Post</p>
               </div>
-              <div class="card-body ">
-                <canvas id="chartEmail"></canvas>
+              <form method="POST" action="{{ url_for('teacher_dashboard') }}" name="notice_submit">
+              <div class="card-body " style="width: fit-content;">
+
+                <textarea id="summernote" name="bolgdata"></textarea>
+
               </div>
               <div class="card-footer ">
                 <div class="legend">
-                  <i class="fa fa-circle text-primary"></i> Opened
-                  <i class="fa fa-circle text-warning"></i> Read
-                  <i class="fa fa-circle text-danger"></i> Deleted
-                  <i class="fa fa-circle text-gray"></i> Unopened
+                  
                 </div>
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar"></i> Number of emails sent
+                  <input type="submit" id="notice_buttom" class="btn btn-primary btn-sm" onclick="" name="notice_submit" value="submit">
                 </div>
+                </form>
               </div>
             </div>
           </div>
           <div class="col-md-8">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-title">Time Table</h5>
-                <p class="card-category">Follow your time table</p>
+                <h5 class="card-title">Timetable</h5>
+                <p class="card-category">Select field to check Timetable</p>
               </div>
-              <form action="/">
-                <fieldset>
-              <div class="card-body">
-                
-                <table class="table table-striped table-responsive-md btn-table">
-                
-                  <thead class=" text-primary">
-                    <tr>
-                      <th>DAY/TIME</th>
-                      <th>9.00-9.50</th>
-                      <th>9.50-10-40</th>
-                      <th>tea break</th>
-                      <th>11.00-11.50</th>
-                      <th>11.50-12-40</th>
-                      <th>lunch break</th>
-                      <th>1.30-2.25</th>
-                      <th>2.25-3.20</th>
-                      <th>3.20-4.15</th>
-                
-                    </tr>
-                  </thead>
-                
-                  <tbody>
-                    <tr>
-                      <th scope="row">monday</th>
-                      <td> <input type="text" name="value1" value=""> </td>
-                      <td><input type="text" name="value2" value=""></td>
-                      <td rowspan="6">tea break</td>
-                      <td><input type="text" name="value3" value=""></td>
-                      <td><input type="text" name="value4" value=""></td>
-                      <td rowspan="6">lunch break</td>
-                      <td><input type="text" name="value5" value=""></td>
-                      <td><input type="text" name="value6" value=""></td>
-                      <td><input type="text" name="value7" value=""></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Tuesday</th>
-                      <td><input type="text" name="value7" value=""></td>
-                      <td><input type="text" name="value8" value=""></td>
-                      <td><input type="text" name="value9" value=""></td>
-                      <td><input type="text" name="value10" value=""></td>
-                      <td><input type="text" name="value11" value=""></td>
-                      <td><input type="text" name="value12" value=""></td>
-                      <td><input type="text" name="value13" value=""></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Wednesday</th>
-                      <td><input type="text" name="value14" value=""></td>
-                      <td><input type="text" name="value15" value=""></td>
-                      <td><input type="text" name="value16" value=""></td>
-                      <td><input type="text" name="value17" value=""></td>
-                      <td><input type="text" name="value18" value=""></td>
-                      <td><input type="text" name="value19" value=""></td>
-                      <td><input type="text" name="value20" value=""></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Thusday</th>
-                      <td><input type="text" name="value21" value=""></td>
-                      <td><input type="text" name="value22" value=""></td>
-                      <td><input type="text" name="value23" value=""></td>
-                      <td><input type="text" name="value24" value=""></td>
-                      <td><input type="text" name="value25" value=""></td>
-                      <td><input type="text" name="value26" value=""></td>
-                      <td><input type="text" name="value27" value=""></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Firday</th>
-                      <td><input type="text" name="value28" value=""></td>
-                      <td><input type="text" name="value29" value=""></td>
-                      <td><input type="text" name="value30" value=""></td>
-                      <td><input type="text" name="value31" value=""></td>
-                      <td><input type="text" name="value32" value=""></td>
-                      <td><input type="text" name="value33" value=""></td>
-                      <td><input type="text" name="value34" value=""></td>
-                    </tr>
-                  </tbody>
-                
-                </table>
-
-                
-             </div>
-                <div class="card-footer ">
-                 
-                  
-                  
-                    <div class="col-md-8">
-                      <div class="form-group ">
-                        <label  for="Attendance">Select class</label>
-                        <select id="Attendance" class="form-control" name="branch">
-                          <option value="CSE">CSE</option>
-                          <option value="ISE">ISE</option>
-                          <option value="ME">ME</option>
-                          <option value="EE">EE</option>
-                        </select>
-                      </div>
-                      <div class="form-group " >
-                        <label for="Attendance">Select SEM</label>
-                        <select id="Attendance" class="form-control" name="sem">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                        </select>
-                      </div>
-                      <div class="form-group ">
-                        <label for="Attendance">Select SEM</label><span class="inline">
-                        <select id="Attendance" class="form-control" name="sec">
-                          <option value="A">A</option>
-                          <option value="B">B</option>
-                          <option value="C">C</option>
-                          <option value="D">D</option>
-
-                        </select>
-                        </span>
-                      </div>
-                      <button type="submit" class="btn btn-default">Submit</button>
-                    </div>
-                  
-                 
-                    
+              <div class="card-body text-center">
+              <table>
+                <tr>
+                  <form method="POST" action="">
+                    {{form1.hidden_tag()}}
+                    <td align="center"> Select Field  </td>
+                    <td colspan="2" align="center">
+                      {{form1.branch(class='wrapper-dropdown', placeholder='BRANCH')}}
+                    </td>
+                    <td colspan="2" align="center">
+                      {{form1.sem(class='wrapper-dropdown')}}
+                    </td>
+                    <td colspan="3" align="center">
+                      {{form1.sec(class='wrapper-dropdown')}}
+                    </td>
+                </tr>
               
-                </div>
-                </fieldset>
+              </table>
+              {{form1.submit1(class='btn btn-primary btn-sm')}}
               </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      
       <footer class="footer footer-black  footer-white ">
         <div class="container-fluid">
           <div class="row">
@@ -516,12 +459,16 @@ input[type=text] {
   <script src="../../static/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
   <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
   <script src="../../static/demo/demo.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+
   <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-      demo.initChartsPages();
-    });
+  $('#summernote').summernote({
+    placeholder: 'Please write here.............',
+    height: 300
+  });
   </script>
+ 
 </body>
 
 </html>

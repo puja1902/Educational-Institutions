@@ -30,6 +30,7 @@ The above copyright notice and this permission notice shall be included in all c
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <!-- CSS Files -->
   <link href="../../static/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../../static/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
@@ -155,8 +156,8 @@ The above copyright notice and this permission notice shall be included in all c
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn-rotate" href="#pablo">
-                  <i class="nc-icon nc-settings-gear-65"></i>
+                <a class="nav-link btn-rotate" href="{{ url_for('logout') }} ">
+                  <i class="fas fa-sign-out-alt"></i>
                   <p>
                     <span class="d-lg-none d-md-block">Account</span>
                   </p>

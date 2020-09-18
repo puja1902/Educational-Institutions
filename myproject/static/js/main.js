@@ -21,6 +21,10 @@ let nCount = selector => {
   });
 };
 */
+
+
+
+
 let a = 0;
 $(window).scroll(function () {
   // The .offset() method allows us to retrieve the current position of an element  relative to the document
@@ -50,3 +54,20 @@ $(window).scroll(function () {
     navbar.removeClass("sticky");
   }
 });
+
+var siteScroll = function () {
+	$(window).scroll(function () {
+
+	AOS.init({
+		mirror: true
+      });
+
+     document.addEventListener('aos:in', function (e) {
+		console.log('in!', e.detail);
+      });
+
+      window.addEventListener('scroll', function () {
+		scrollCounter.innerHTML = window.pageYOffset;
+	  });
+	});
+	}

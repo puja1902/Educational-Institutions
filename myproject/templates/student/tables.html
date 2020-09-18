@@ -48,9 +48,6 @@
           </div>
         </div>
         <div class="col-md-3 px-1">
-          {% if error %}
-          <p class=error><strong>Error:</strong> {{ error }}
-            {% endif %}
             <div class="form-group">
               <label>Username</label>
               <input type="text" class="form-control"  disabled placeholder="Username" name="username" value="{{current_user.username}}">
@@ -90,10 +87,9 @@
           <div class="form-group">
             <label>Branch</label>
           <select  class="form-control" name="branch">
-            <option value="CSE">CSE</option>
-            <option value="ISE">ISE</option>
-            <option value="ME">ME</option>
-            <option value="EE">EE</option>
+            {% for item in branches %}
+            <option value="{{item.branch_id}}">{{item.branch_id}}</option>
+            {% endfor %}
           </select>
           </div>
         </div>

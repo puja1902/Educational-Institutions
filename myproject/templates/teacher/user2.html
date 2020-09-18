@@ -1,72 +1,55 @@
 {% extends "layout.html" %}
 {% block content %}
-
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">Team Members</h4>
-              </div>
-              <div class="card-body">
-                <ul class="list-unstyled team-members">
-                  <li>
-                    <div class="row">
-                      <div class="col-md-2 col-2">
-                        <div class="avatar">
-                          <img src="../static/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                        </div>
-                      </div>
-                      <div class="col-md-7 col-7">
-                        DJ Khaled
-                        <br />
-                        <span class="text-muted">
-                          <small>Offline</small>
-                        </span>
-                      </div>
-                      <div class="col-md-3 col-3 text-right">
-                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="row">
-                      <div class="col-md-2 col-2">
-                        <div class="avatar">
-                          <img src="../static/img/faces/joe-gardner-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                        </div>
-                      </div>
-                      <div class="col-md-7 col-7">
-                        Creative Tim
-                        <br />
-                        <span class="text-success">
-                          <small>Available</small>
-                        </span>
-                      </div>
-                      <div class="col-md-3 col-3 text-right">
-                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="row">
-                      <div class="col-md-2 col-2">
-                        <div class="avatar">
-                          <img src="../static/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                        </div>
-                      </div>
-                      <div class="col-ms-7 col-7">
-                        Flume
-                        <br />
-                        <span class="text-danger">
-                          <small>Busy</small>
-                        </span>
-                      </div>
-                      <div class="col-md-3 col-3 text-right">
-                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+        <div class="content">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card card-user">
+                <div class="image">
+                  <img src="../static/img/damir-bosnjak.jpg" alt="...">
+                </div>
+                <div class="card-body">
+            <div class="author">
+              <a href="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}">
+                <img class="avatar border-gray" src="{{image_file}}" alt="...">
+                <h5 class="title">{{current_user.t_user.first_name}}  {{current_user.t_user.last_name}}</h5>
+              </a>
+              <p class="description">
+                @{{current_user.username}}
+              </p>
             </div>
+            <p class="description text-center">
+              "I like the way you work it
+              <br> No diggity
+              <br> I wanna bag it up"
+            </p>
+            </div>
+                <div class="card-footer">
+                  <hr>
+                  <div class="button-container">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-6 col-6 ml-auto">
+                        <h5>12
+                          <br>
+                          <small>Post</small>
+                        </h5>
+                      </div>
+                      <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">
+                        <h5>1k
+                          <br>
+                          <small>liked</small>
+                        </h5>
+                      </div>
+                      <div class="col-lg-3 mr-auto">
+                        <h5>{{current_user.s_user.branch}}
+                          <br>
+                          <small>Class</small>
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
           </div>
           <div class="col-md-8">
             <div class="card card-user">
@@ -76,34 +59,33 @@
               <div class="card-body">
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                <div class=flashes>
+                <div class=flashes >
                   {% for message in messages %}
                   <p style="margin-right: 20%; margin-left: 20%; text-align: center;"><strong style="color:royalblue;">{{ message }}</strong></p>
                   {% endfor %}
                 </div>
                 {% endif %}
                 {% endwith %}
-                <form action="/teacher_account" method="POST">
+                <form method="POST" action="/teacher_account" enctype="multipart/form-data">
+                  {{ form.hidden_tag() }}
                   <div class="row">
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
                         <label>ID</label>
-                        <input type="text" class="form-control" disabled placeholder="Company" name="t_id" value="{{t_id}}">
+                        
+                        {{form.t_id(class='form-control', disabled=True)  }}
                       </div>
                     </div>
                     <div class="col-md-3 px-1">
-                      {% if error %}
-                      <p class=error><strong>Error:</strong> {{ error }}
-                        {% endif %}
                       <div class="form-group">
                         <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Username" name="username" value="{{username}}">
+                      {{form.username(class='form-control')  }}
                       </div>
                     </div>
                     <div class="col-md-4 pl-1">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" placeholder="Email" name="email" value="{{email}}">
+                        {{form.emailid(class='form-control')  }}
                       </div>
                     </div>
                   </div>
@@ -111,13 +93,13 @@
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="First Name" name="firstname" value="{{firstn}}">
+                        {{form.fname(class='form-control')  }}
                       </div>
                     </div>
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" name="lastname" value="{{lastn}}">
+                        {{form.lname(class='form-control')  }}
                       </div>
                     </div>
                   </div>
@@ -125,7 +107,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Address</label>
-                        <input type="text" class="form-control" placeholder="Home Address" name="address" value="{{address}}">
+                        {{form.address(class='form-control')  }}
                       </div>
                     </div>
                   </div>
@@ -133,14 +115,29 @@
                     <div class="col-md-4 pr-1">
                       <div class="form-group">
                         <label>Branch</label>
-                        <input type="text" class="form-control" placeholder="branch" name="branch" value="{{branch}}">
+                        {{form.branch(class='form-control')  }}
                       </div>
                     </div>
-                   
+                    </div>
+                
                   </div>
+
+                  
+                  <div class="upload-btn-wrapper">
+                    <button class="btn">Upload a file</button>
+                  {{ form.picture.label() }}
+                  {{ form.picture(class='form-control') }}
+                  </div>
+                  {% if form.picture.errors %}
+                  {% for error in form.picture.errors %}
+                  <span class="text-danger">{{ error }}</span></br>
+                  {% endfor %}
+                  {% endif %}
+              
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
+                      {{ form.submit(class="btn btn-primary btn-round") }}
+                      
                     </div>
                   </div>
                 </form>
