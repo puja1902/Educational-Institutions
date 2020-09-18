@@ -27,4 +27,9 @@ This project is defined as an application based on the Internet that aims to all
 ![Screenshot(100)](https://user-images.githubusercontent.com/53162198/93625339-67b34500-f9ff-11ea-9949-41e74110acda.png)
 
 
+# BLOG
+
+![Screenshot(99)](https://user-images.githubusercontent.com/53162198/93625481-aa751d00-f9ff-11ea-8a4b-4e0927a5c959.png)
+
+
 
