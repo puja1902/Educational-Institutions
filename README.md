@@ -45,6 +45,15 @@ This project is defined as an application based on the Internet that aims to all
 ![Screenshot (104)](https://user-images.githubusercontent.com/53162198/93628265-e4e0b900-fa03-11ea-8fda-06d6f6f082f7.png)
 
 
+# DIGITAL CLASSROOM
+
+![Screenshot(101)](https://user-images.githubusercontent.com/53162198/93628439-30936280-fa04-11ea-91c1-55a7634cb33b.png)
+
+
+![Screenshot(102)](https://user-images.githubusercontent.com/53162198/93628448-32f5bc80-fa04-11ea-9c35-980a42589693.png)
+
+
+
 
 
 
